@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "feed",
+  "type": "object",
+  "properties": {
+    "imageCaption": {
+      "type": "string"
+    },
+    "likes": {
+      "type": "boolean",
+      "default": false
+    },
+    "attachmentUrl": {
+      "type": "string"
+    }
+  },
+  "required": ["imageCaption", "attachmentUrl"],
+  "additionalProperties": false
+}
