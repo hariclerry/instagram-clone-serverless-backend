@@ -4,5 +4,5 @@ export interface FeedItem {
   createdAt: string
   imageCaption: string
   likes: boolean
-  attachmentUrl?: string
+  imageUrl: string
 }

@@ -7,6 +7,7 @@ import { UpdateFeedRequest } from '../requests/UpdateFeedRequest'
 import { getUserId } from '../auth/utils'
 
 const feedAccess = new FeedAccess()
+const bucketName = process.env.IMAGES_BUCKET;
 
 export async function getFeeds(authHeader: string) {
          const userId = getUserId(authHeader);
@@ -32,6 +33,10 @@ export async function createFeed(
     ...createNewFeed,
   } as FeedItem;
 
+    if (createNewFeed.imageUrl && createNewFeed.imageUrl.length > 0) {
+      newFeed.imageUrl = `https://${bucketName}.s3.amazonaws.com/${createNewFeed.imageUrl}`;
+    }
+
   await feedAccess.createFeed(newFeed);
 
   return newFeed;
@@ -42,10 +47,10 @@ export async function updateFeed(
          updatedFeed: UpdateFeedRequest,
          authHeader: string
        ) {
-         const { likes } = updatedFeed;
+         const { likes, imageCaption } = updatedFeed;
          const userId = getUserId(authHeader);
 
-         await feedAccess.updateFeed(feedId, likes, userId);
+         await feedAccess.updateFeed(feedId, likes, imageCaption, userId);
          return updatedFeed;
        }
 

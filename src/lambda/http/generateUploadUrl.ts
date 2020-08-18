@@ -1,33 +1,26 @@
-import 'source-map-support/register'
+import "source-map-support/register";
 
-import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import * as middy from "middy";
+import { cors } from "middy/middlewares";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
-import { generateSignedUrl } from '../../s3/generateSignedUrl'
-import { createLogger } from '../../utils/logger'
-import { uploadFeedAttachment } from "../../businessLogic/feeds";
+import { generateSignedUrl } from "../../s3/generateSignedUrl";
+import { createLogger } from "../../utils/logger";
 
-const logger = createLogger('Image upload')
-const bucketName = process.env.IMAGES_S3_BUCKET
+const logger = createLogger("Image upload");
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    logger.info(`Processing event ${event}`)
+    logger.info(`Processing event ${event}`);
 
-    const { feedId } = event.pathParameters
-    const signedUrl = generateSignedUrl(feedId);
-    const authHeader = event.headers.Authorization
-    const attachmentUrl = `https://${bucketName}.s3.amazonaws.com/${feedId}`;
-
-    await uploadFeedAttachment(feedId, authHeader, attachmentUrl);
-
+    const { ImageKey } = event.pathParameters;
+    const signedUrl = generateSignedUrl(ImageKey);
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        uploadUrl: signedUrl
-      })
-    }
+        uploadUrl: signedUrl,
+      }),
+    };
   }
-).use(cors())
+).use(cors());
