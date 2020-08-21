@@ -13,8 +13,9 @@ export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     logger.info(`Processing event ${event}`);
 
-    const { ImageKey } = event.pathParameters;
-    const signedUrl = generateSignedUrl(ImageKey);
+
+    const { imageKey } = event.pathParameters;
+    const signedUrl = generateSignedUrl(imageKey);
 
     return {
       statusCode: 200,

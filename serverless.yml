@@ -1,5 +1,5 @@
 service:
-  name: serverless-instagram-clone-app
+  name: serverless-instagram-app
 
 plugins:
   - serverless-webpack
@@ -21,7 +21,7 @@ provider:
   environment:
     FEEDS_TABLE: feeds-${self:provider.stage}
     FEED_INDEX_NAME: FeedIdIndex
-    IMAGES_S3_BUCKET: serverless-instagram-clone-harriet-${self:provider.stage}
+    IMAGES_S3_BUCKET: instagram-harriet-${self:provider.stage}
 
 custom:
   serverless-offline:
@@ -58,7 +58,7 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource: '*'
+        Resource: "*"
 
   CreateFeeds:
     handler: src/lambda/http/createFeed.handler
@@ -80,7 +80,7 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource: '*'
+        Resource: "*"
 
   UpdateFeed:
     handler: src/lambda/http/updateFeed.handler
@@ -102,7 +102,7 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource: '*'
+        Resource: "*"
 
   DeleteFeed:
     handler: src/lambda/http/deleteFeed.handler
@@ -121,14 +121,14 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource: '*'
+        Resource: "*"
 
-  GenerateUploadUrl:
+  GenerateUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
       - http:
           method: post
-          path: feeds/attachment
+          path: feeds/attachment/{imageKey}
           cors: true
           authorizer: Auth
     iamRoleStatements:
@@ -150,7 +150,7 @@ functions:
         Action:
           - xray:PutTraceSegments
           - xray:PutTelemetryRecords
-        Resource: '*'
+        Resource: "*"
 
 resources:
   Resources:
@@ -197,9 +197,9 @@ resources:
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - '*'
+                - "*"
               AllowedHeaders:
-                - '*'
+                - "*"
               AllowedMethods:
                 - GET
                 - PUT
@@ -213,11 +213,11 @@ resources:
       Properties:
         PolicyDocument:
           Id: MyPolicy
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Sid: PublicReadForGetBucketObjects
               Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
+              Principal: "*"
+              Action: "s3:GetObject"
+              Resource: "arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*"
         Bucket: !Ref AttachmentsBucket

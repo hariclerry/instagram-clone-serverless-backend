@@ -8,9 +8,6 @@
     },
     "likes": {
       "type": "boolean"
-    },
-    "attachmentUrl": {
-      "type": "string"
     }
   },
   "additionalProperties": false

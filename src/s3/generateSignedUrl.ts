@@ -10,10 +10,10 @@ const bucketName = process.env.IMAGES_S3_BUCKET
 const urlExpiration = 300
 
 
-export function generateSignedUrl(ImageKey: string) {
+export function generateSignedUrl(imageKey: string) {
   return s3.getSignedUrl("putObject", {
     Bucket: bucketName,
-    Key: ImageKey,
+    Key: imageKey,
     Expires: urlExpiration,
   });
 }

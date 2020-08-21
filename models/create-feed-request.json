@@ -10,10 +10,10 @@
       "type": "boolean",
       "default": false
     },
-    "attachmentUrl": {
+    "imageUrl": {
       "type": "string"
     }
   },
-  "required": ["imageCaption", "attachmentUrl"],
+  "required": ["imageCaption", "imageUrl"],
   "additionalProperties": false
 }

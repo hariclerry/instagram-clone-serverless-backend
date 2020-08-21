@@ -47,10 +47,9 @@ export class FeedAccess {
         TableName: this.feedsTable,
         Key: { feedId, userId },
         UpdateExpression: "SET imageCaption = :imageCaption, likes = :likes",
-        ConditionExpression: "feedId = :feedId",
         ExpressionAttributeValues: {
-          ":imageCaption": imageCaption || null,
-          ":likes": likes || null,
+          ":imageCaption": imageCaption,
+          ":likes": likes
         },
       })
       .promise();
@@ -65,25 +64,6 @@ export class FeedAccess {
       .promise();
     return Promise.resolve(feedId);
   }
-
-  // async uploadFeedAttachment(
-  //   feedId: string,
-  //   userId: string,
-  //   attachmentUrl: string
-  // ): Promise<void> {
-  //   await this.docClient
-  //     .update({
-  //       TableName: this.feedsTable,
-  //       Key: { feedId, userId },
-  //       UpdateExpression: "set attachmentUrl = :attachmentUrl",
-  //       ConditionExpression: "feedId = :feedId",
-  //       ExpressionAttributeValues: {
-  //         ":feedId": feedId,
-  //         ":attachmentUrl": attachmentUrl,
-  //       },
-  //     })
-  //     .promise();
-  // }
 }
 
 function createDynamoDBClient() {
