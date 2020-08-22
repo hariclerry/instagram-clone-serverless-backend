@@ -29,3 +29,5 @@ Instagram Clone Service you can:
 ### Here is the frontend repo
 https://github.com/hariclerry/instagram-clone-aws-frontend
 
+### Ref: Some of the code used in this project are from https://github.com/udacity/cloud-developer just for learning purpose
+
